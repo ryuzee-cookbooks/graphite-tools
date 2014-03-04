@@ -7,15 +7,16 @@
 # This software is released under the MIT License.
 # http://opensource.org/licenses/mit-license.php
 
-template "/usr/local/bin/remove_old_data.sh" do
-  source "remove_old_data.sh.erb"
+filename = "remove_unused_graphite_data.sh"
+template "/usr/local/bin/#{filename}" do
+  source "#{filename}.erb"
   owner "root"
   group "root"
   mode 0755
 end
 
 cron "remove_old_data" do
-  hour "6"
-  minute "0"
-  command "/usr/local/bin/remove_old_data.sh"
+  hour "#{node['graphite-tools']['cron']['hour']}"
+  minute "#{node['graphite-tools']['cron']['minute']}"
+  command "/usr/local/bin/#{filename}"
 end
