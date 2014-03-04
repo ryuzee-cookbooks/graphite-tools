@@ -1,0 +1,3 @@
+#!/bin/sh
+
+find /opt/graphite/storage/whisper -type f -mtime +6 -name \*.wsp -delete; find /opt/graphite/storage/whisper -depth -type d -empty -delete
