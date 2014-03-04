@@ -1,23 +1,14 @@
 graphite-tools Cookbook
 =======================
-TODO: Enter the cookbook description here.
-
-e.g.
-This cookbook makes your favorite breakfast sandwhich.
+This cookbook will delete old graphite data.
 
 Requirements
 ------------
-TODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.
-
-e.g.
-#### packages
-- `toaster` - graphite-tools needs toaster to brown your bagel.
+There are no requirements
 
 Attributes
 ----------
-TODO: List you cookbook attributes here.
 
-e.g.
 #### graphite-tools::default
 <table>
   <tr>
@@ -27,19 +18,34 @@ e.g.
     <th>Default</th>
   </tr>
   <tr>
-    <td><tt>['graphite-tools']['bacon']</tt></td>
-    <td>Boolean</td>
-    <td>whether to include bacon</td>
-    <td><tt>true</tt></td>
+    <td><tt>['graphite-tools']['remove_before']</tt></td>
+    <td>Integer</td>
+    <td>Days after last changed</td>
+    <td><tt>14</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['graphite-tools']['whisper_path']</tt></td>
+    <td>String</td>
+    <td>Path to datafile directory</td>
+    <td><tt>/opt/graphite/storage/whisper</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['graphite-tools']['cron']['hour']</tt></td>
+    <td>String</td>
+    <td>Hour to exec this command</td>
+    <td><tt>0,6,12,18</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['graphite-tools']['cron']['minute']</tt></td>
+    <td>String</td>
+    <td>Minute to exec this command</td>
+    <td><tt>5</tt></td>
   </tr>
 </table>
 
 Usage
 -----
 #### graphite-tools::default
-TODO: Write usage instructions for each cookbook.
-
-e.g.
 Just include `graphite-tools` in your node's `run_list`:
 
 ```json
@@ -53,9 +59,6 @@ Just include `graphite-tools` in your node's `run_list`:
 
 Contributing
 ------------
-TODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.
-
-e.g.
 1. Fork the repository on Github
 2. Create a named feature branch (like `add_component_x`)
 3. Write you change
@@ -65,4 +68,4 @@ e.g.
 
 License and Authors
 -------------------
-Authors: TODO: List authors
+Authors: Ryutaro Yoshiba
