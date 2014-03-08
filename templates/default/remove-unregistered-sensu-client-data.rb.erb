@@ -1,0 +1,39 @@
+#!/usr/bin/ruby
+
+require 'net/http'
+require 'uri'
+require 'json'
+
+SENSU_API_URI = "<%= node["graphite-tools"]["sensu"]["api_endpoint"] %>/clients"
+WHISPER_DATA_DIR = "<%= node["graphite-tools"]["path"]["whisper"] %>/stats/"
+
+def delete_directory(directory)
+  dirlist = Dir::glob(directory + "**/").sort {
+    |a,b| b.split('/').size <=> a.split('/').size
+  }
+  dirlist.each {|d|
+    Dir::foreach(d) {|f|
+      File::delete(d+f) if ! (/\.+$/ =~ f)
+    }
+    Dir::rmdir(d)
+  }
+end
+
+clients = []
+begin
+  uri = URI.parse(SENSU_API_URI)
+  json = Net::HTTP.get(uri)
+  results = JSON.parse(json)
+  results.each {|r| clients.push(r["name"]) }
+rescue
+  exit 1
+end
+
+whisper_data_directory_list = Dir::entries(WHISPER_DATA_DIR)
+whisper_data_directory_list.delete_if {|x| (x == "." || x == "..")}
+whisper_data_directory_list.delete_if {|x| clients.include?(x)}
+whisper_data_directory_list.each {|dir|
+  puts dir
+  delete_directory(WHISPER_DATA_DIR + dir + "/")
+}
+exit 0

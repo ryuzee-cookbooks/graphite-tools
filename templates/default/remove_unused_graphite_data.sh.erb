@@ -1,4 +1,0 @@
-#!/bin/sh
-
-find <%= node["graphite-tools"]["whisper_path"] %> -type f -mtime +<%= node["graphite-tools"]["remove_before"] %> -name \*.wsp -delete
-find <%= node["graphite-tools"]["whisper_path"] %> -depth -type d -empty -delete
